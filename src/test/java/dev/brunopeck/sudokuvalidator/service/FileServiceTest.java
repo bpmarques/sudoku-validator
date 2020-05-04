@@ -18,7 +18,7 @@ public class FileServiceTest {
 	@Test
 	public void shouldReadAValidCSVFile() throws IOException {
 		FileService service = new FileService();
-		int[][] sudokuBoard = service.read("src\\test\\resources\\sudoku.csv");
+		int[][] sudokuBoard = service.read("src\\test\\resources\\sudoku.txt");
 		assertArrayEquals(sudokuBoard[0], fileContent()[0]);
 	}
 
@@ -26,7 +26,7 @@ public class FileServiceTest {
 	public void shouldThrowAnExceptionIfFilePathIsWrong() throws IOException {
 		expectedException.expect(FileNotFoundException.class);
 		FileService service = new FileService();
-		service.read("wrongPath\\sudoku.csv");
+		service.read("wrongPath\\sudoku.txt");
 	}
 
 	@Test
@@ -34,7 +34,7 @@ public class FileServiceTest {
 		expectedException.expect(IllegalArgumentException.class);
 		expectedException.expectMessage(ValidationMessages.INVALID_CSV_ELEMENT);
 		FileService service = new FileService();
-		service.read("src\\test\\resources\\sudoku-string-element.csv");
+		service.read("src\\test\\resources\\sudoku-string-element.txt");
 	}
 
 	@Test
@@ -42,7 +42,7 @@ public class FileServiceTest {
 		expectedException.expect(IllegalArgumentException.class);
 		expectedException.expectMessage(ValidationMessages.INVALID_CSV_ELEMENT);
 		FileService service = new FileService();
-		service.read("src\\test\\resources\\sudoku-element-out-of-range.csv");
+		service.read("src\\test\\resources\\sudoku-element-out-of-range.txt");
 	}
 
 	@Test
@@ -50,7 +50,7 @@ public class FileServiceTest {
 		expectedException.expect(IllegalArgumentException.class);
 		expectedException.expectMessage(ValidationMessages.INVALID_CSV_LINE);
 		FileService service = new FileService();
-		service.read("src\\test\\resources\\sudoku-short-line.csv");
+		service.read("src\\test\\resources\\sudoku-short-line.txt");
 	}
 
 	@Test
@@ -58,7 +58,7 @@ public class FileServiceTest {
 		expectedException.expect(IllegalArgumentException.class);
 		expectedException.expectMessage(ValidationMessages.INVALID_CSV_LINE);
 		FileService service = new FileService();
-		service.read("src\\test\\resources\\sudoku-greater-line.csv");
+		service.read("src\\test\\resources\\sudoku-greater-line.txt");
 	}
 
 	private int[][] fileContent() {
