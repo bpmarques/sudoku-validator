@@ -1,6 +1,7 @@
 package dev.brunopeck.sudokuvalidator.service;
 
 import dev.brunopeck.sudokuvalidator.constants.SudokuStatus;
+import dev.brunopeck.sudokuvalidator.exception.InvalidGameException;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -10,65 +11,56 @@ public class ValidatorService {
 
 	private FileService fileService = new FileService();
 
-	public int validate(String filePath) {
-		int result = SudokuStatus.INVALID;
+	public int validate(String filePath) throws InvalidGameException {
 		try {
 			int[][] sudokuBoard = fileService.read(filePath);
-			boolean isLinesValid = validateLines(sudokuBoard);
-			boolean isColumnsValid = validateColumns(sudokuBoard);
-			boolean isRegionsValid = validateRegions(sudokuBoard);
-			if (isLinesValid && isColumnsValid && isRegionsValid) {
-				result = SudokuStatus.VALID;
-			}
+			validateLines(sudokuBoard);
+			validateColumns(sudokuBoard);
+			validateRegions(sudokuBoard);
 
-			return result;
+			return SudokuStatus.VALID;
 		} catch (IOException | IllegalArgumentException e) {
-			e.printStackTrace();
-			return result;
+			throw new InvalidGameException(e.getMessage());
 		}
 	}
 
-	private boolean validateLines(int[][] sudokuBoard) {
+	private void validateLines(int[][] sudokuBoard) {
 		Set<Integer> set = new HashSet<>();
 		for (int i = 0; i < sudokuBoard.length; i++) {
 			for (int j = 0; j < sudokuBoard.length; j++) {
 				if (!set.add(sudokuBoard[i][j])) {
-					return false;
+					throw new InvalidGameException((i + 1), (j + 1));
 				}
 			}
 			set.clear();
 		}
-		return true;
 	}
 
-	private boolean validateColumns(int[][] sudokuBoard) {
+	private void validateColumns(int[][] sudokuBoard) {
 		Set<Integer> set = new HashSet<>();
 		for (int i = 0; i < sudokuBoard.length; i++) {
 			for (int j = 0; j < sudokuBoard.length; j++) {
 				if (!set.add(sudokuBoard[j][i])) {
-					return false;
+					throw new InvalidGameException((j + 1), (i + 1));
 				}
 			}
 			set.clear();
 		}
-		return true;
 	}
 
-	private boolean validateRegions(int[][] sudokuBoard) {
+	private void validateRegions(int[][] sudokuBoard) {
 		Set<Integer> set = new HashSet<>();
 		int region = 0;
 		while(region < 6) {
 			for (int i = (region * 3); i < (region + 3); i++) {
 				for (int j = (region * 3); j < (region + 3); j++) {
 					if (!set.add(sudokuBoard[i][j])) {
-						return false;
+						throw new InvalidGameException((i + 1), (j + 1));
 					}
 				}
 			}
 			set.clear();
 			region++;
 		}
-
-		return true;
 	}
 }
