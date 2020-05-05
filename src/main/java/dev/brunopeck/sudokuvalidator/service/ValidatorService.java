@@ -16,7 +16,8 @@ public class ValidatorService {
 			int[][] sudokuBoard = fileService.read(filePath);
 			boolean isLinesValid = validateLines(sudokuBoard);
 			boolean isColumnsValid = validateColumns(sudokuBoard);
-			if (isLinesValid && isColumnsValid) {
+			boolean isRegionsValid = validateRegions(sudokuBoard);
+			if (isLinesValid && isColumnsValid && isRegionsValid) {
 				result = SudokuStatus.VALID;
 			}
 
@@ -43,7 +44,7 @@ public class ValidatorService {
 	private boolean validateColumns(int[][] sudokuBoard) {
 		Set<Integer> set = new HashSet<>();
 		for (int i = 0; i < sudokuBoard.length; i++) {
-			for (int j = 1; j < sudokuBoard.length; j++) {
+			for (int j = 0; j < sudokuBoard.length; j++) {
 				if (!set.add(sudokuBoard[j][i])) {
 					return false;
 				}
@@ -54,6 +55,20 @@ public class ValidatorService {
 	}
 
 	private boolean validateRegions(int[][] sudokuBoard) {
-		return false;
+		Set<Integer> set = new HashSet<>();
+		int region = 0;
+		while(region < 6) {
+			for (int i = (region * 3); i < (region + 3); i++) {
+				for (int j = (region * 3); j < (region + 3); j++) {
+					if (!set.add(sudokuBoard[i][j])) {
+						return false;
+					}
+				}
+			}
+			set.clear();
+			region++;
+		}
+
+		return true;
 	}
 }

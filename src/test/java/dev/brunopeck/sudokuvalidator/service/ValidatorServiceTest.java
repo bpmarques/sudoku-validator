@@ -12,18 +12,24 @@ public class ValidatorServiceTest {
 	@Test
 	public void shouldJudgeACorrectSudokuBoard() {
 		int result = validatorService.validate("src/test/resources/game-validation-samples/sudoku-valid.txt");
-		assertEquals(result, SudokuStatus.VALID);
+		assertEquals(SudokuStatus.VALID, result);
 	}
 
 	@Test
 	public void shouldJudgeAnInCorrectSudokuBoardWithWrongLine() {
 		int result = validatorService.validate("src/test/resources/game-validation-samples/sudoku-wrong-line.txt");
-		assertEquals(result, SudokuStatus.INVALID);
+		assertEquals(SudokuStatus.INVALID, result);
 	}
 
 	@Test
 	public void shouldJudgeAnInCorrectSudokuBoardWithWrongColumn() {
 		int result = validatorService.validate("src/test/resources/game-validation-samples/sudoku-wrong-column.txt");
-		assertEquals(result, SudokuStatus.INVALID);
+		assertEquals(SudokuStatus.INVALID, result);
+	}
+
+	@Test
+	public void shouldJudgeAnInCorrectSudokuBoardWithWrongRegion() {
+		int result = validatorService.validate("src/test/resources/game-validation-samples/sudoku-wrong-region.txt");
+		assertEquals(SudokuStatus.INVALID, result);
 	}
 }
