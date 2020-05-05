@@ -8,31 +8,35 @@ import java.io.IOException;
 
 public class FileService {
 
-	private static final String COMMA_DELIMITER = ",";
+	private static final String COMMA_SEPARATOR = ",";
 
 	public int[][] read(String path) throws IOException {
 		int[][] content = new int[9][9];
 		try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
 			String line;
-			int lineNumber = -1;
+			int lineNumber = 0;
 
 			while ((line = reader.readLine()) != null) {
-				String[] arr = line.split(COMMA_DELIMITER);
-				if (!isLineValid(arr)) {
-					throw new IllegalArgumentException(ValidationMessages.INVALID_CSV_LINE);
-				}
+				String[] stringElements = line.split(COMMA_SEPARATOR);
+				fillLine(content, lineNumber, stringElements);
 				lineNumber++;
-				for (int i = 0; i < arr.length; i++) {
-					int elementParsed = isElementValid(arr[i]);
-					if(elementParsed != -1) {
-						content[lineNumber][i] = elementParsed;
-					} else {
-						throw new IllegalArgumentException(ValidationMessages.INVALID_CSV_ELEMENT);
-					}
-				}
 			}
 		}
 		return content;
+	}
+
+	private void fillLine(int[][] content, int lineNumber, String[] arr) {
+		if (!isLineValid(arr)) {
+			throw new IllegalArgumentException(ValidationMessages.INVALID_CSV_LINE);
+		}
+		for (int i = 0; i < arr.length; i++) {
+			int elementParsed = isElementValid(arr[i]);
+			if(elementParsed != -1) {
+				content[lineNumber][i] = elementParsed;
+			} else {
+				throw new IllegalArgumentException(ValidationMessages.INVALID_CSV_ELEMENT);
+			}
+		}
 	}
 
 	private boolean isLineValid(String[] line) {
