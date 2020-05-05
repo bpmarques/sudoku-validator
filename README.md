@@ -16,7 +16,10 @@ Project created as a solution for a code challenge, it should validate a txt fil
 Before run the project, make sure you have the `JRE` and `Maven` in your computer.
 
 ## Run The Validator
-For windows users, there is a `validate.bat` file in the project root folder, just double click it or run on CMD or PowerShell. It will pack the project into a JAR file and excecute it.
+To run the application, just execute the `validate.bat` file in the project root with the file path as parameter, like the example below.
+
+    validate.bat "C:\path-to-file\sudokuFile.txt"
+
 
 ## Tests
 There are also some unit tests, in order ou run them, execute the following command.

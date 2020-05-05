@@ -1,23 +1,26 @@
 package dev.brunopeck.sudokuvalidator;
 
+import dev.brunopeck.sudokuvalidator.constants.SudokuStatus;
 import dev.brunopeck.sudokuvalidator.exception.InvalidGameException;
 import dev.brunopeck.sudokuvalidator.service.ValidatorService;
 
-import java.util.Scanner;
-
 public class App {
     public static void main( String[] args ) {
-        System.out.print("Type the path for the CSV file: ");
-        Scanner scanner = new Scanner(System.in);
-        String path = scanner.nextLine();
-        ValidatorService validatorService = new ValidatorService();
         try {
-            int validationStatus = validatorService.validate(path);
-            System.out.println("Validation Code: " + validationStatus);
-            System.out.print("Message: Sudoku validated is correct!");
+            if (args.length == 0) {
+                printResult("Path for the file is mandatory", SudokuStatus.INVALID);
+                System.exit(-1);
+            }
+            ValidatorService validatorService = new ValidatorService();
+            int validationStatus = validatorService.validate(args[0]);
+            printResult("Sudoku validated is correct!", validationStatus);
         } catch (InvalidGameException e) {
-            System.out.println("Validation Code: " + e.getGameStatus());
-            System.out.print("Message: " + e.getMessage());
+            printResult(e.getMessage(), e.getGameStatus());
         }
+    }
+
+    private static void printResult(String message, int statusCode) {
+        System.out.println("Validation Code: " + statusCode);
+        System.out.println("Message: " + message);
     }
 }
