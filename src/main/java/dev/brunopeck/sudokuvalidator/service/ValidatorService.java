@@ -29,7 +29,7 @@ public class ValidatorService {
 		for (int i = 0; i < sudokuBoard.length; i++) {
 			for (int j = 0; j < sudokuBoard.length; j++) {
 				if (!set.add(sudokuBoard[i][j])) {
-					throw new InvalidGameException((i + 1), (j + 1));
+					throw new InvalidGameException("Sudoku have an invalid element at line " + (i + 1));
 				}
 			}
 			set.clear();
@@ -41,7 +41,7 @@ public class ValidatorService {
 		for (int i = 0; i < sudokuBoard.length; i++) {
 			for (int j = 0; j < sudokuBoard.length; j++) {
 				if (!set.add(sudokuBoard[j][i])) {
-					throw new InvalidGameException((j + 1), (i + 1));
+					throw new InvalidGameException("Sudoku have an invalid element at column " + (i + 1));
 				}
 			}
 			set.clear();
@@ -55,7 +55,7 @@ public class ValidatorService {
 			for (int i = (region * 3); i < (region + 3); i++) {
 				for (int j = (region * 3); j < (region + 3); j++) {
 					if (!set.add(sudokuBoard[i][j])) {
-						throw new InvalidGameException((i + 1), (j + 1));
+						throw new InvalidGameException("The element at line " + (i + 1) + " and column " + (j + 1) + " is duplicated in its region");
 					}
 				}
 			}

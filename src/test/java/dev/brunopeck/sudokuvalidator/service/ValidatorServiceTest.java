@@ -24,21 +24,21 @@ public class ValidatorServiceTest {
 	@Test
 	public void shouldJudgeAnInCorrectSudokuBoardWithWrongLine() {
 		expectedException.expect(InvalidGameException.class);
-		expectedException.expectMessage("Sudoku is invalid at line 3 and column 6");
+		expectedException.expectMessage("Sudoku have an invalid element at line 3");
 		validatorService.validate("src/test/resources/game-validation-samples/sudoku-wrong-line.txt");
 	}
 
 	@Test
 	public void shouldJudgeAnInCorrectSudokuBoardWithWrongColumn() {
 		expectedException.expect(InvalidGameException.class);
-		expectedException.expectMessage("Sudoku is invalid at line 9 and column 4");
+		expectedException.expectMessage("Sudoku have an invalid element at column 4");
 		validatorService.validate("src/test/resources/game-validation-samples/sudoku-wrong-column.txt");
 	}
 
 	@Test
 	public void shouldJudgeAnInCorrectSudokuBoardWithWrongRegion() {
 		expectedException.expect(InvalidGameException.class);
-		expectedException.expectMessage("Sudoku is invalid at line 2 and column 1");
+		expectedException.expectMessage("The element at line 2 and column 1 is duplicated in its region");
 		validatorService.validate("src/test/resources/game-validation-samples/sudoku-wrong-region.txt");
 	}
 }
